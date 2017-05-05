@@ -41,6 +41,17 @@ And it is possible to use it as a tool to quickly debug a login form::
     - password: secret
 
 
+You can also provide a selector to the method as an XPath so select a particular form on the page.
+This can be useful if you have more than one form present, and the score mechanism selects the incorrect form::
+
+   >>> from loginform import fill_login_form
+   >>> import requests
+   >>> url = "https://twitter.com"
+   >>> r = requests.get(url)
+   >>> fill_login_form(url, r.text, "john", "secret", selector='//form[@class="signin"]')
+   >>> fill_login_form(url, r.text, "john", "secret", selector='//form[@class="signup"]')
+
+
 Testing
 -------
 

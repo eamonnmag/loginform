@@ -39,6 +39,8 @@ def _form_score(form):
 
 def _pick_form(forms):
     """Return the form most likely to be a login form"""
+    for form in forms:
+        print(form)
     return sorted(forms, key=_form_score, reverse=True)[0]
 
 
@@ -72,9 +74,12 @@ def submit_value(form):
         return []
 
 
-def fill_login_form(url, body, username, password):
+def fill_login_form(url, body, username, password, *args, **kwargs):
+
+    selector = kwargs.get('selector', '//form')
+
     doc = html.document_fromstring(body, base_url=url)
-    form = _pick_form(doc.xpath('//form'))
+    form = _pick_form(doc.xpath(selector))
     userfield, passfield = _pick_fields(form)
     form.fields[userfield] = username
     form.fields[passfield] = password

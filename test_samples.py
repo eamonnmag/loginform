@@ -48,8 +48,13 @@ def main():
     if opts.list:
         print("\n".join(list_samples()))
     else:
+        print(args)
         url = args[0]
-        r = requests.get(url)
+        headers = {
+            'User-Agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)',
+        }
+
+        r = requests.get(url, headers=headers)
         values = fill_login_form(url, r.text, "USER", "PASS")
         values = (url, values)
         print(json.dumps(values, indent=3))
